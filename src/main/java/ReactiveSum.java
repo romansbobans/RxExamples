@@ -25,10 +25,7 @@ public class ReactiveSum {
 
     public <T> void combine(Func1<Double, T> resultFunction) {
         Observable.combineLatest(a, b, (aDouble, aDouble2) -> aDouble+aDouble2).flatMap((Func1<Double, Observable<?>>) aDouble -> {
-            if (aDouble < 0) {
-                return Observable.error(new IllegalArgumentException("Number cannot be null"));
-            }
-            return Observable.just(resultFunction.call(aDouble)).cache();
+            return Observable.just(resultFunction.call(aDouble));
         }).subscribe(System.out::println);
         inputObservable.connect();
     }
